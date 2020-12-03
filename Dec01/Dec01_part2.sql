@@ -203,7 +203,7 @@ WITH input AS (
 			(1974)
 	) AS MyTable (x)
 )
-SELECT I1.x * I2.x AS Answer
+SELECT I1.x * I2.x * I3.x AS Answer
 FROM input AS I1
 INNER JOIN input AS I2
 	ON I1.x < I2.x -- don't duplicate
