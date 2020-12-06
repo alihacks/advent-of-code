@@ -11,6 +11,7 @@ WITH InputGroups AS (
 MaxInputLen AS(
 SELECT MAX(LEN(ItemString)) AS MaxLen FROM InputGroups
 ),
+-- Generate enough numbers for our needs
 Numbers AS (SELECT 1 AS num
         UNION ALL
         SELECT num + 1 

@@ -18,6 +18,7 @@ GroupedInput AS (
 	CROSS APPLY STRING_SPLIT(REPLACE(InputGroups.GroupString, CHAR(0xD) + CHAR(0xA), '^'), '^')
 ),
 MaxInputLen AS (SELECT MAX(LEN(GroupedInput.InputValue)) AS MaxLen FROM GroupedInput),
+-- Generate enough numbers for our needs
 Numbers AS (
 	SELECT 1 AS num
 	UNION ALL
