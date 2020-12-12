@@ -9,10 +9,10 @@ def parse(instr: str) -> List:
 
 
 def partOne(instr: str) -> int:
-    input_list = parse(instr)
+    input = parse(instr)
     return 0
 
 
 def partTwo(instr: str) -> int:
-    input_list = parse(instr)
+    input = parse(instr)
     return 0
