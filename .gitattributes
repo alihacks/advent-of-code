@@ -1,2 +1,3 @@
 # Make sure all text is CRLF due to parsing / developing on Win
 *.sql text eol=crlf
+.py text eol=lf
