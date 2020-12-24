@@ -20,7 +20,7 @@ if __name__ == "__main__":
     try:
         test_input = open(os.path.join(dir, "test.txt")).read()
         print("Part 1 Test:", partOne(test_input))
-        # cProfile.run('partTwo(test_input)')
+        #cProfile.run('partTwo(test_input)')
         print("Part 2 Test:", partTwo(test_input))
     except FileNotFoundError:
         print("Info: Skipping tests, test.txt not found")
