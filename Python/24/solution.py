@@ -2,6 +2,10 @@ from typing import List
 import copy
 
 
+MOVES = {'w': (-1, 0), 'e': (1, 0), 'nw': (-1, 1),
+         'ne': (0, 1), 'sw': (0, -1), 'se': (1, -1)}
+
+
 def parse(instr: str) -> List:
     commands = []
     for line in instr.splitlines():
@@ -20,80 +24,51 @@ def parse(instr: str) -> List:
 
 
 def lay_tiles(cmds: list):
-    xlist, ylist = [], []
-    moves = {}
-    moves['w'] = (-1, 0)
-    moves['e'] = (1, 0)
-    moves['nw'] = (-1, 1)
-    moves['ne'] = (0, 1)
-    moves['sw'] = (0, -1)
-    moves['se'] = (1, -1)
 
-    tilemap = {}
+    black_tiles = set()
     for cmd in cmds:
         x, y = 0, 0
         for move in cmd:
-            x_move, y_move = moves[move]
+            x_move, y_move = MOVES[move]
             x += x_move
             y += y_move
-            xlist.append(x)
-            ylist.append(y)
-        if (x, y) not in tilemap:
-            tilemap[(x, y)] = True
-        else:  # flip
-            tilemap.update({(x, y): not tilemap[(x, y)]})
-    return tilemap, max([max(xlist), max(ylist)])
+        if (x, y) not in black_tiles:
+            black_tiles.add((x, y))
+        else:  # flip back to white
+            black_tiles.remove((x, y))
+    return black_tiles
 
 
 def partOne(instr: str) -> int:
     cmds = parse(instr)
-    tilemap, _ = lay_tiles(cmds)
-    ans = 0
-    for _, v in tilemap.items():
-        ans += 1 if v else 0
-    return ans
-
-
-def make_grid(tilemap, n):
-    grid = [[False for _ in range(n)] for _ in range(n)]
-    middle = int(n / 2)
-    for k, v in tilemap.items():
-        x, y = k
-        if v:
-            grid[middle + x][middle + y] = True
-    return grid
-
-
-def count_black(grid):
-    cnt = 0
-    for i in range(len(grid)):
-        for j in range(len(grid)):
-            if grid[i][j]:
-                cnt += 1
-    return cnt
+    black_tiles = lay_tiles(cmds)
+    return len(black_tiles)
 
 
 def partTwo(instr: str) -> int:
     cmds = parse(instr)
-    tilemap, n = lay_tiles(cmds)
-    ni = [(-1, 0), (1, 0), (-1, 1), (0, 1), (0, -1), (1, -1)]
+    tilemap = lay_tiles(cmds)
+    ni = [v for _, v in MOVES.items()]
 
     iters = 100
-    n = n + 2 * iters  # Max growth
 
-    grid = make_grid(tilemap, n)
-    print(count_black(grid))
     for i in range(iters):
-        next_grid = copy.deepcopy(grid)
-        for x in range(1, n - 1):
-            for y in range(1, n - 1):
-                bn = 0
-                for dx, dy in ni:
-                    if grid[x + dx][y + dy]:
-                        bn += 1
-                if (grid[x][y] and (bn == 0 or bn > 2)):
-                    next_grid[x][y] = False
-                if (not grid[x][y] and bn == 2):
-                    next_grid[x][y] = True
-        grid = next_grid
-    return count_black(grid)
+        next_map = set()
+        to_visit = set()
+        for (x, y) in tilemap:
+            to_visit.add((x, y))
+            for dx, dy in ni:
+                to_visit.add((x + dx, y + dy))
+
+        for (x, y) in to_visit:
+            bn = 0
+            for dx, dy in ni:
+                if (x + dx, y + dy) in tilemap:
+                    bn += 1
+            if ((x, y) in tilemap):
+                if not (bn == 0 or bn > 2):
+                    next_map.add((x, y))
+            if (not (x, y) in tilemap and bn == 2):
+                next_map.add((x, y))
+        tilemap = next_map
+    return len(tilemap)
