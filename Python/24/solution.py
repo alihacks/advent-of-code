@@ -65,9 +65,8 @@ def partTwo(instr: str) -> int:
             for dx, dy in ni:
                 if (x + dx, y + dy) in tilemap:
                     bn += 1
-            if ((x, y) in tilemap):
-                if not (bn == 0 or bn > 2):
-                    next_map.add((x, y))
+            if (x, y) in tilemap and not (bn == 0 or bn > 2):
+                next_map.add((x, y))
             if (not (x, y) in tilemap and bn == 2):
                 next_map.add((x, y))
         tilemap = next_map
