@@ -73,6 +73,4 @@ for i in best_r:
     val = calc_md([0, 0, 0], c) - r
     if val > max_md:
         max_md = val
-print(max_md)
-assert max_md == 93130765
 print("Part2:", max_md)
