@@ -35,7 +35,7 @@ def partOne(instr: str) -> int:
     play_cups(input, next, iters)
     ans = ''
     cc = 1
-    for i in range(len(input) - 1):
+    while next[cc] != 1:
         cc = next[cc]
         ans += str(cc)
     return ans
