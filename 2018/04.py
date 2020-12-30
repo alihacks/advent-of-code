@@ -23,27 +23,26 @@ def main(input, is_real):
         if new_guard:
             current_guard = int(new_guard['id'])
             if not current_guard in guards:
-                guards.update({current_guard: []})
+                guards.update({current_guard: collections.Counter()})
         else:
             event = parse(event_template, line)
             if event['event'] == 'falls asleep':
                 sleep_start = int(event['mn'])
             else:
                 mn = int(event['mn'])
-                guards[current_guard].extend(
+                guards[current_guard].update(
                     [i for i in range(sleep_start, mn)])
 
-    sleep_mins = dict([(k, len(v)) for k, v in guards.items()])
+    sleep_mins = dict([(g, sum(c.values())) for g, c in guards.items()])
     sleepy_guard_id = max(sleep_mins, key=sleep_mins.get)
 
-    sleepiest_min, _ = collections.Counter(
-        guards[sleepy_guard_id]).most_common(1)[0]
+    sleepiest_min, _ = guards[sleepy_guard_id].most_common(1)[0]
     ans = sleepy_guard_id * sleepiest_min
 
     print("Part1:", ans)
 
-    gm = [(k, next(iter(collections.Counter(v).most_common(1)), None))
-          for k, v in guards.items() if len(v) > 0]
+    gm = [(g, next(iter(c.most_common(1)), None))
+          for g, c in guards.items() if len(c) > 0]
     smid, (minute, _) = max(gm, key=lambda x: list(x[1])[1])
     print("Part2:", smid * minute)
 
