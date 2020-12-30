@@ -1,28 +1,29 @@
-from collections import *
-from itertools import *
+import collections
+import functools
+import operator
+import itertools
 import re
+from parse import parse
 from rich import print
 from aocd import lines, get as aocd_get
 
 
 def main(input, is_real):
-    world = {}
+    world = collections.defaultdict(int)
+
     for line in input:
         _, x, y, xc, yc = map(int, re.findall(r'\d+', line))
-        for xi in range(x, x + xc):
-            for yi in range(y, y + yc):
-                world[(xi, yi)] = 1 if (
-                    xi, yi) not in world else world[(xi, yi)] + 1
+        for xi, yi in itertools.product(range(x, x + xc), range(y, y + yc)):
+            world[(xi, yi)] += 1
 
     print("Part1:", sum(1 for _, v in world.items() if v >= 2))
 
     for line in input:
         claimno, x, y, xc, yc = map(int, re.findall(r'\d+', line))
         nolap = True
-        for xi in range(x, x + xc):
-            for yi in range(y, y + yc):
-                if world[(xi, yi)] > 1:
-                    nolap = False
+        for xi, yi in itertools.product(range(x, x + xc), range(y, y + yc)):
+            if world[(xi, yi)] > 1:
+                nolap = False
         if nolap:
             print("Part2:", claimno)
 

@@ -1,6 +1,9 @@
-from collections import *
+import collections
+import functools
+import operator
 from itertools import *
 import re
+from parse import parse
 from rich import print
 from aocd import lines, get as aocd_get
 
