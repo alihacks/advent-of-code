@@ -2,6 +2,7 @@ import collections
 import functools
 import operator
 import itertools
+import copy
 import re
 from parse import parse
 from rich import print
