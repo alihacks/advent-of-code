@@ -1,7 +1,7 @@
 import collections
 import functools
 import operator
-from itertools import *
+import itertools
 import re
 from parse import parse
 from rich import print
