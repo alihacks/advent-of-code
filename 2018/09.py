@@ -43,12 +43,11 @@ def play(pc, lm):
         current = current.next.append(i)
 
     ans = max(scores.values())
-    print((ans))
     return ans
 
 
 def main(input, is_real):
-    pc, lm = map(int, re.findall(r'\d+', input[0]))
+    pc, lm = map(int, re.findall(r'-?\d+', input[0]))
 
     ans = play(pc, lm)
     print("Part1:", ans)
