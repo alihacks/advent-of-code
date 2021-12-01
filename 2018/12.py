@@ -37,7 +37,7 @@ def main(input, is_real):
 
         tc = count_plants(state, len(pad) * i)
         buf.append(tc - pc)
-        if len(buf) == repeat_threshold and len(set(buf)) == 1:  # nothing new
+        if i > 20 and len(buf) == repeat_threshold and len(set(buf)) == 1:  # nothing new
             growth_rate = buf[0]
             break
         pc = tc
