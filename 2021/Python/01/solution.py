@@ -6,13 +6,7 @@ def parse(instr: str) -> List:
 
 
 def get_incs(list: List) -> int:
-    prev = -1
-    inc = 0
-    for i in list:
-        if prev >= 0 and i > prev:
-            inc = inc + 1
-        prev = i
-    return inc
+    return sum(map(lambda i: 1 if list[i] > list[i - 1] else 0, range(1, len(list))))
 
 
 def partOne(instr: str) -> int:
@@ -24,5 +18,5 @@ def partTwo(instr: str) -> int:
     input_list = parse(instr)
     sums = []
     for i in range(2, len(input_list)):
-        sums.append(input_list[i - 2] + input_list[i - 1] + input_list[i])
+        sums.append(sum(input_list[i - 2 : i + 1]))
     return get_incs(sums)

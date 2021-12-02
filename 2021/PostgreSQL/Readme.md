@@ -1,0 +1,1 @@
+To run: psql -p5433 -Xqf dec01.sql
