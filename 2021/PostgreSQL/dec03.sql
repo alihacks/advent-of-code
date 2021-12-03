@@ -26,5 +26,5 @@ ranks AS(
 ), epsilon AS(
     SELECT string_agg(val,'' ORDER BY idx) as val FROM ranks where rnk=2
 )
-SELECT (lpad(gamma.val,32,'0')::bit(32))::integer * (lpad(epsilon.val,24,'0')::bit(24))::integer AS answer_1
+SELECT (lpad(gamma.val,32,'0')::bit(32))::integer * (lpad(epsilon.val,32,'0')::bit(32))::integer AS answer_1
 FROM gamma, epsilon;
