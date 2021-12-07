@@ -71,4 +71,4 @@ part2 AS(
     LIMIT 1)
 SELECT 
     (SELECT fish_count FROM part1) AS answer_1,
-    (SELECT fish_count FROM part2) AS answer_1
+    (SELECT fish_count FROM part2) AS answer_2
