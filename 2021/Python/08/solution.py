@@ -102,8 +102,8 @@ def partTwo(instr: str) -> int:
     ans = 0
     for i in range(len(l)):
         digits = decode(l[i])
-        n = ""
+        n = 0
         for val in r[i]:
-            n += str(digits.index(set(val)))
-        ans += int(n)
+            n = 10 * n + digits.index(set(val))
+        ans += n
     return ans
