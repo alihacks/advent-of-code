@@ -11,18 +11,13 @@ class Grid:
         self.C = len(self.grid[0])
 
     def is_valid_coord(self, r, c):
-        return r >= 0 and r < self.R and c >= 0 and c < self.C
+        return r in range(self.R) and c in range(self.C)
 
     def neighbor_coords(self, r, c):
         n = []
-        if self.is_valid_coord(r - 1, c):
-            n.append([r - 1, c])
-        if self.is_valid_coord(r, c - 1):
-            n.append([r, c - 1])
-        if self.is_valid_coord(r + 1, c):
-            n.append([r + 1, c])
-        if self.is_valid_coord(r, c + 1):
-            n.append([r, c + 1])
+        for ri, ci in [[r - 1, c], [r, c - 1], [r + 1, c], [r, c + 1]]:
+            if self.is_valid_coord(ri, ci):
+                n.append([ri, ci])
         return n
 
     def find_lowpoints(self):
