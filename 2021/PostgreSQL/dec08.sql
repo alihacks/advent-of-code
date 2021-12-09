@@ -84,5 +84,6 @@ line_values AS(
         AND rparts.part @> all_digits.part AND all_digits.part @> rparts.part
     GROUP BY rparts.line_number
 )
-SELECT SUM(lineval)
-FROM line_values;
+SELECT
+    (SELECT COUNT(*) FROM rparts WHERE cardinality(rparts.part) IN(2,4,3,7)) AS answer_1,
+    (SELECT SUM(lineval) FROM line_values) as answer_2;
