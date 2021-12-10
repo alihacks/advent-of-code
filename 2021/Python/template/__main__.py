@@ -3,7 +3,7 @@ import sys
 import pathlib
 import os
 from rich import print
-from solution import partOne, partTwo
+from solver import Solver
 
 
 if __name__ == "__main__":
@@ -12,13 +12,30 @@ if __name__ == "__main__":
     day = pathlib.Path(__file__).parent.name
     dir = pathlib.Path(__file__).parent.absolute()
 
+    ICON_PASS = "\U00002705"
+    ICON_FAIL = "\U0000274C"
+
     print(f"[yellow]AoC {year}[/yellow]: Day {day}")
     print(f"Python {platform.python_version()}\n")
 
     try:
         test_input = open(os.path.join(dir, "test.txt")).read()
-        print("Part 1 Test:", partOne(test_input))
-        print("Part 2 Test:", partTwo(test_input))
+        s = Solver(test_input, True)
+        s.solve()
+        print(
+            "Part 1 Test:",
+            s.part1,
+            ICON_PASS
+            if s.part1 == s.test1
+            else ICON_FAIL + " (!= " + str(s.test1) + ")",
+        )
+        print(
+            "Part 2 Test:",
+            s.part2,
+            ICON_PASS
+            if s.part2 == s.test2
+            else ICON_FAIL + " (!= " + str(s.test2) + ")",
+        )
     except FileNotFoundError:
         print("Info: Skipping tests, test.txt not found")
 
@@ -32,5 +49,7 @@ if __name__ == "__main__":
         sys.exit(-1)
 
     print("Answers")
-    print("Part 1:", partOne(challenge_input))
-    print("Part 2:", partTwo(challenge_input))
+    s = Solver(challenge_input, False)
+    s.solve()
+    print("Part 1:", s.part1)
+    print("Part 2:", s.part2)
