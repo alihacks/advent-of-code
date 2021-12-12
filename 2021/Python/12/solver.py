@@ -1,5 +1,5 @@
 from typing import List
-from collections import defaultdict
+from collections import defaultdict, deque
 
 
 class Solver:
@@ -15,48 +15,29 @@ class Solver:
             self.graph[n1].append(n2)
             self.graph[n2].append(n1)
 
-    def find_paths(self, path: List):
-        # print("Here with", path)
-        for neighbor in self.graph[path[-1]]:
-            if neighbor.islower() and neighbor in path:
+    def bfs(self, double_small):
+        q = deque([("start", set(["start"]), None)])
+        ans = 0
+        while q:
+            n, smalls, special_small = q.popleft()
+            if n == "end":
+                ans += 1
                 continue
-            path.append(neighbor)
-            if neighbor == "end":
-                self.part1 += 1
-            else:
-                self.find_paths(path)
-            path.pop()
+            for neighbor in self.graph[n]:
+                if neighbor not in smalls:
+                    new_smalls = set(smalls)
+                    if neighbor.islower():
+                        new_smalls.add(neighbor)
+                    q.append((neighbor, new_smalls, special_small))
 
-    def find_paths2(self, path: List, sc):
-        for neighbor in self.graph[path[-1]]:
-            if neighbor == "start":
-                continue
-            if neighbor.islower() and neighbor in path:
-                if sc != neighbor:  # special neighbor has been picked already
-                    continue
                 elif (
-                    path.count(neighbor) > 1
-                ):  # this is our special char so it can occur once
-                    continue
-
-            path.append(neighbor)
-            if neighbor == "end":
-                ps = ",".join(path)
-                if ps not in self.seen2:
-                    self.seen2.add(ps)
-                    self.part2 += 1
-                    # print("sc", sc, "Terminal:", path)
-            else:
-                self.find_paths2(path, sc)
-            path.pop()
+                    double_small
+                    and special_small is None
+                    and neighbor not in ["start", "end"]
+                ):
+                    q.append((neighbor, smalls, neighbor))
+        return ans
 
     def solve(self):
-        self.part1 = 0
-        self.part2 = 0
-
-        self.find_paths(["start"])
-
-        self.seen2 = set()
-        # would have be been easier with BFS but part1 was already DFS so brute force it
-        for node in [k for k in self.graph.keys() if k.islower()]:
-            self.find_paths2(["start"], node)
+        self.part1 = self.bfs(False)
+        self.part2 = self.bfs(True)
