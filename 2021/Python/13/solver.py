@@ -23,9 +23,9 @@ class Solver:
         new_dots = set()
         for x, y in self.dots:
             if is_y and y > fold_line:
-                new_dots.add((x, fold_line - (y - fold_line)))
+                new_dots.add((x, 2 * fold_line - y))
             elif not is_y and x > fold_line:
-                new_dots.add((fold_line - (x - fold_line), y))
+                new_dots.add((2 * fold_line - x, y))
             else:
                 new_dots.add((x, y))
         self.dots = new_dots
