@@ -38,15 +38,14 @@ class Graph:
         dist[0][0] = self.grid[0][0]
         q = [(dist[0][0], 0, 0)]
 
-        for r in range(self.R * self.repeats):
-            for c in range(self.C * self.repeats):
-                d, min_r, min_c = heapq.heappop(q)
+        while q:
+            d, min_r, min_c = heapq.heappop(q)
 
-                for rr, cc in self.adjacents(min_r, min_c):
-                    if dist[rr][cc] > d + self.get(rr, cc):
-                        new_dist = d + self.get(rr, cc)
-                        dist[rr][cc] = new_dist
-                        heapq.heappush(q, (new_dist, rr, cc))
+            for rr, cc in self.adjacents(min_r, min_c):
+                if dist[rr][cc] > d + self.get(rr, cc):
+                    new_dist = d + self.get(rr, cc)
+                    dist[rr][cc] = new_dist
+                    heapq.heappush(q, (new_dist, rr, cc))
 
         self.dist = dist
 
