@@ -106,3 +106,9 @@ class Solver:
         self.part1 = len(beacons)
 
         self.part2 = 0
+
+        for b1 in offsets:
+            for b2 in offsets:
+                md = abs(b1[0] - b2[0]) + abs(b1[1] - b2[1]) + abs(b1[2] - b2[2])
+                if md > self.part2:
+                    self.part2 = md
