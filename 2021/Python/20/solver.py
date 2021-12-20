@@ -27,14 +27,12 @@ class Solver:
         self.is_flipper = 0 in self.lookup
 
     def get_val(self, r, c):
-        lk, i = 0, 0
+        lk, i = 0, 8
         for ri in range(r - 1, r + 2):
             for ci in range(c - 1, c + 2):
-                if (ri, ci) in self.grid:
-                    lk += 2 ** (8 - i) if not self.flipped else 0
-                else:
-                    lk += 2 ** (8 - i) if self.flipped else 0
-                i += 1
+                if self.flipped == ((ri, ci) not in self.grid):
+                    lk += 2 ** i
+                i -= 1
         return lk
 
     def solve(self):
