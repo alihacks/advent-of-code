@@ -8,10 +8,7 @@ class Cube:
         self.y0, self.y1 = y0, y1
         self.z0, self.z1 = z0, z1
         self.is_on = is_on
-        if is_on:
-            self.size = (x1 + 1 - x0) * (y1 + 1 - y0) * (z1 + 1 - z0)
-        else:
-            self.size = 0
+        self.size = (x1 + 1 - x0) * (y1 + 1 - y0) * (z1 + 1 - z0)
 
     def intersection(self, c2):
         x0 = max(self.x0, c2.x0)
@@ -92,7 +89,8 @@ class Solver:
                     # replace cube we change with the new cube
                     seen.remove(c2)
                     seen.update(c2.subtract(c))
-            seen.add(c)
+            if is_on:
+                seen.add(c)
         for c in seen:
             ans += c.size
         return ans
