@@ -85,3 +85,16 @@ class Solver:
 
         self.part1 = "".join([str(i) for i in self.part1])
         self.part2 = "".join([str(i) for i in self.part2])
+
+        # Test it against code we compiled
+        funs = self.compile()
+        z1, z2 = 0, 0
+        for i, fun in enumerate(funs):
+            z1n = fun(int(self.part1[i]), 0, 0, z1)
+            z2n = fun(int(self.part2[i]), 0, 0, z2)
+            # print("z1 grow by", z1n - z1, "to", z1n)
+            # print("z2 grow by", z2n - z2, "to", z2n)
+            z1, z2 = z1n, z2n
+        print("Compiler output for part1:", z1, "part2:", z2)
+        assert z1 == 0
+        assert z2 == 0
