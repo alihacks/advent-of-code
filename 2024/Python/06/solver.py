@@ -22,37 +22,29 @@ class Solver:
                     self.guard = complex(r,c)
 
     def solve(self):
+        vectors = [-1+0j,0+1j,1+0j,0-1j] # U, R, D, L
+        
         def walk(extra = -1):
-            vectors = [-1+0j,0+1j,1+0j,0-1j] # U, R, D, L
-            vi = 0
             g = self.guard
+            vi = 0
             visits = defaultdict(set)
             visits[g].add(vi)
             while True:
                 g1 = g + vectors[vi]
-                if g1.real < 0 or g1.real >= self.R or g1.imag < 0 or g1.imag >=self.C :
+                if  g1.real < 0 or g1.real >= self.R or g1.imag < 0 or g1.imag >=self.C:
                     break
                 if g1 == extra or g1 in self.obs:
                     vi = (vi + 1) % 4
                 else:
                     if vi in visits[g1]:
-                        return visits, True #Loop
+                        return False
                     visits[g1].add(vi)
                     g = g1
-            return visits, False
+            return visits
         
-        visits, _ = walk()
+        visits = walk()
         self.part1 = len(visits)
-        
-        tc, wc = 0,0
-        for r in range(self.R):
-            for c in range(self.C):
-                tc += 1
-                pos = complex(r,c)
-                if pos in self.obs or pos not in visits:
-                    continue
-                wc += 1
-                _, loop = walk(pos)
-                if loop:
-                    self.part2 += 1
-                
+
+        for pos in visits:
+            if not walk(pos):
+                self.part2 += 1
