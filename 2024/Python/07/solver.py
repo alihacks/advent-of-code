@@ -1,5 +1,5 @@
 from typing import List
-import itertools, more_itertools
+import itertools
 
 class Solver:
     def __init__(self, input_str, is_test: bool):
@@ -17,9 +17,9 @@ class Solver:
             tot = 0
             operators = ['+', '*', '|'] if p2 else ['+','*']
             for eq in self.data:
-                for ops in itertools.product(operators, repeat=len(eq) - 1):
-                    res, op = 0, '+'
-                    for el, op in zip(eq[1:], ops):
+                for ops in itertools.product(operators, repeat=len(eq) - 2):
+                    res = 0
+                    for el, op in zip(eq[1:], ['+'] + list(ops)):
                         if op == '+':
                             res = res + el
                         elif op == '*':
