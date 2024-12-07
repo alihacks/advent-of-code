@@ -43,7 +43,7 @@ if __name__ == "__main__":
             if s.part2 == s.test2
             else ICON_FAIL + " (!= " + str(s.test2) + ")",
         )
-        print(f'Time taken: {elapsed:,.2f} ms')
+        print(f'Time taken: [bold magenta]{elapsed:,.2f} ms')
     except FileNotFoundError:
         print("Info: Skipping tests, test.txt not found")
 
@@ -63,4 +63,4 @@ if __name__ == "__main__":
     elapsed = 1000. *(time.perf_counter() - start)
     print("Part 1:", s.part1)
     print("Part 2:", s.part2)
-    print(f'Time taken: {elapsed:,.2f} ms')
+    print(f'Time taken: [bold magenta]{elapsed:,.2f} ms')
