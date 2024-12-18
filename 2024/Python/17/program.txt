@@ -1,0 +1,14 @@
+2,4     b = a % 8
+1,4     b = b ^ a # 
+7,5     c = a >> b
+4,1     b = b ^ c
+1,4     b = b ^ 4
+5,5     PRINT(b % 8)
+0,3     a = a >> 3
+3,0     while a != 0
+
+
+rightmost 3 bytes determine first digit ... 
+oct
+4 354 337 671 603 002
+  354 337 671 603 002
