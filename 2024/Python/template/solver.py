@@ -13,4 +13,4 @@ class Solver:
         self.data = [list(line) for line in instr.splitlines()]
 
     def solve(self):
-        self.part1 = 0
+        print(self.data)
