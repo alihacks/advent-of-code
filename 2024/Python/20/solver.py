@@ -1,7 +1,6 @@
 from typing import List
 import heapq
-from collections import defaultdict
-import itertools 
+from itertools import product 
 
 class Solver:
     def __init__(self, input_str, is_test: bool):
@@ -41,19 +40,19 @@ class Solver:
             return dist
         
         def count_cheats(limit = 2):
-            m2 = []
-            for dr, dc in itertools.product(range(-limit, limit + 1), repeat=2):
-                if 1 < abs(dr) + abs(dc) <= limit:
-                    m2.append((dr, dc))
-            cheats = set()
+            m2 = [(dr, dc) for dr, dc in product(range(-limit, limit + 1), repeat=2) if 1 < abs(dr) + abs(dc) <= limit]
+            res = 0 
             for r,c in dist:
+                seen = set()
                 for dr, dc in m2:
                     rr, cc = r + dr, c + dc
                     if (rr,cc) in dist:
                         gain = dist[(rr,cc)] - dist[(r,c)] - (abs(dr) + abs(dc))
                         if gain >= (50 if self.is_test else 100):
-                            cheats.add((r,c,rr,cc))
-            return len(cheats)
+                            if (rr,cc) not in seen:
+                                seen.add((rr,cc))
+                res += len(seen)
+            return res
 
         dist = search()
         self.part1 = count_cheats()
